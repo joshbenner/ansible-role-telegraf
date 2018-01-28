@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Josh Benner
+  description: Install and configure telegraf metrics collection
+  license: BSD
+  min_ansible_version: 2.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+    - name: Debian
+      versions:
+        - stretch
+    - name: Enterprise_Linux
+      versions:
+        - 7
+
+  galaxy_tags:
+    - telegraf
+    - metrics
+
+dependencies: []

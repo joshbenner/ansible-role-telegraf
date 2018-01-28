@@ -1,0 +1,23 @@
+---
+# vars file for telegraf
+_default_telegraf_agent_options:
+  interval: 10s
+  round_interval: true
+  metric_batch_size: 1000
+  metric_buffer_limit: 10000
+  collection_jitter: 0s
+  flush_interval: 10s
+  flush_jitter: 0s
+  precision: ""
+  debug: false
+  quiet: false
+  logfile: ""
+  hostname: ""
+  omit_hostname: false
+
+_telegraf_config:
+  global_tags: "{{ _telegraf_global_tags }}"
+  agent: "{{ _telegraf_agent_options }}"
+  outputs: "{{ _telegraf_outputs }}"
+  processors: "{{ _telegraf_processors }}"
+  inputs: "{{ _telegraf_inputs }}"

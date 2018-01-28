@@ -1,0 +1,19 @@
+---
+# defaults file for telegraf
+
+telegraf_version: ~
+
+telegraf_release_channel: stable
+
+telegraf_repo_base_url: https://repos.influxdata.com
+
+telegraf_apt_repo_base_url: "{{ telegraf_repo_base_url }}"
+telegraf_apt_repo_key_url: "{{ telegraf_apt_repo_base_url }}/influxdb.key"
+telegraf_apt_repo_dist: "{{ ansible_distribution | lower }}"
+telegraf_apt_repo_release: "{{ ansible_distribution_release | lower }}"
+telegraf_apt_repo: deb {{ telegraf_apt_repo_base_url }}/{{ telegraf_apt_repo_dist }} {{ telegraf_apt_repo_release }} {{ telegraf_release_channel }}
+
+telegraf_yum_repo_base_url: "{{ telegraf_repo_base_url }}/rhel"
+telegraf_yum_repo_gpgkey: "{{ telegraf_repo_base_url }}/influxdb.key"
+telegraf_yum_repo_gpgcheck: yes
+telegraf_yum_repo: '{{ telegraf_yum_repo_base_url }}/\$releasever/\$basearch/{{ telegraf_release_channel }}'

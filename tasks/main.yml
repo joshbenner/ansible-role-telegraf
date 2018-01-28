@@ -1,0 +1,63 @@
+---
+- name: Install telegraf for Debian family OS
+  when: ansible_os_family == 'Debian'
+  block:
+    - name: Install prerequisites (APT)
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - gnupg
+        - apt-transport-https
+
+    - name: Add telegraf repo key (APT)
+      apt_key:
+        url: "{{ telegraf_apt_repo_key_url }}"
+        state: present
+
+    - name: Add telegraf repo (APT)
+      apt_repository:
+        repo: "{{ telegraf_apt_repo }}"
+        state: present
+        filename: telegraf
+
+    - name: Install telegraf (APT)
+      apt:
+        name: telegraf
+        state: present
+
+- name: Install telegraf for RedHat family OS
+  when: ansible_os_family == 'RedHat'
+  block:
+    - name: Add telegraf repo (YUM)
+      yum_repository:
+        name: telegraf
+        description: Telegraf
+        baseurl: "{{ telegraf_yum_repo }}"
+        gpgkey: "{{ telegraf_yum_repo_gpgkey }}"
+        gpgcheck: "{{ telegraf_yum_repo_gpgcheck }}"
+
+    - name: Install telegraf (YUM)
+      yum:
+        name: telegraf
+        state: present
+
+- name: Gather configurations
+  telegraf_merge:
+    suffix: "_telegraf_{{ item }}"
+    var_name: "_telegraf_{{ item }}"
+  with_items:
+    - agent_options
+    - global_tags
+    - outputs
+    - processors
+    - aggregators
+    - inputs
+
+- name: Write telegraf configuration
+  copy:
+    dest: /etc/telegraf/telegraf.conf
+    content: "{{ _telegraf_config | to_telegraf_toml }}"
+    owner: root
+    group: root
+    mode: 0644
