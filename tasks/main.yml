@@ -25,6 +25,7 @@
       apt:
         name: telegraf
         state: present
+      notify: restart telegraf
 
 - name: Install telegraf for RedHat family OS
   when: ansible_os_family == 'RedHat'
@@ -41,6 +42,7 @@
       yum:
         name: telegraf
         state: present
+      notify: restart telegraf
 
 - name: Gather configurations
   telegraf_merge:
@@ -61,3 +63,11 @@
     owner: root
     group: root
     mode: 0644
+    validate: /usr/bin/telegraf --config %s --test
+  notify: reload telegraf
+
+- name: Start telegraf
+  service:
+    name: telegraf
+    state: started
+    enabled: yes
