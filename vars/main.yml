@@ -1,6 +1,6 @@
 ---
 # vars file for telegraf
-_default_telegraf_agent_options:
+_telegraf_agent_options_default:
   interval: 10s
   round_interval: true
   metric_batch_size: 1000
@@ -16,8 +16,9 @@ _default_telegraf_agent_options:
   omit_hostname: false
 
 _telegraf_config:
-  global_tags: "{{ _telegraf_global_tags }}"
-  agent: "{{ _telegraf_agent_options }}"
-  outputs: "{{ _telegraf_outputs }}"
-  processors: "{{ _telegraf_processors }}"
-  inputs: "{{ _telegraf_inputs }}"
+  global_tags: "{{ _telegraf_global_tags_collected }}"
+  agent: "{{ _telegraf_agent_options_default | combine(_telegraf_agent_options_collected, recursive=True) }}"
+  outputs: "{{ _telegraf_outputs_collected }}"
+  processors: "{{ _telegraf_processors_collected }}"
+  aggregators: "{{ _telegraf_aggregators_collected }}"
+  inputs: "{{ _telegraf_inputs_collected }}"

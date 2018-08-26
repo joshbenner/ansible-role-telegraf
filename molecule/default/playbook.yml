@@ -4,3 +4,10 @@
   become: yes
   roles:
     - role: ../../..
+      testing_telegraf_inputs:
+        cpu:
+          - percpu: true
+            totalcpu: true
+            report_active: true
+      testing_telegraf_outputs:
+        discard: [{}]

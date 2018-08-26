@@ -47,7 +47,7 @@
 - name: Gather configurations
   telegraf_merge:
     suffix: "_telegraf_{{ item }}"
-    var_name: "_telegraf_{{ item }}"
+    var_name: "_telegraf_{{ item }}_collected"
   with_items:
     - agent_options
     - global_tags
